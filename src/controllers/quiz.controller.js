@@ -4,6 +4,7 @@ const asyncHandler = require('express-async-handler');
 const Quiz = require('../models/quiz.Model');
 
 const createQuiz = asyncHandler(async (req, res) => {
+    // console.log(req.user.id);
     const {
         name,
         backgroundImage,
@@ -14,7 +15,18 @@ const createQuiz = asyncHandler(async (req, res) => {
         tags,
         likesCount,
         questionList
-    } = req.body;
+    } = req.body;   
+    console.log({
+        name,
+        backgroundImage,
+        description,
+        creatorName,
+        pointsPerQuestion,
+        isPublic,
+        tags,
+        likesCount,
+        questionList
+    });
     const quiz = new Quiz({
         name,
         backgroundImage,
@@ -29,11 +41,13 @@ const createQuiz = asyncHandler(async (req, res) => {
         questionList,
         dateCreated: new Date().toISOString()
     });
-
+    console.log(quiz);
     try {
         const newQuiz = await quiz.save();
+        console.log('TAHANHCONGROI');
         res.status(201).json(newQuiz);
     } catch (error) {
+        console.log('loi');
         res.status(400).json({ message: error.message });
     }
 });
